@@ -18,27 +18,33 @@ export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('Iniciando busca de personagens...');
+
     fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
-        setCharacters(data);
+        console.log('Dados recebidos! Personagens encontrados:', data.content.length);
+        setCharacters(data.content);
         setLoading(false);
       })
       .catch((error) => {
-        console.error(error);
+        console.error('ERRO AO BUSCAR DADOS:', error);
         setLoading(false);
       });
   }, []);
 
-  const renderCharacter = ({ item }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => navigation.navigate('Details', { id: item.id })} 
-    >
-      <Image source={{ uri: item.img }} style={styles.itemImage} />
-      <Text style={styles.itemText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
+  const renderCharacter = ({ item }) => {
+
+    return (
+      <TouchableOpacity
+        style={styles.itemContainer}
+        onPress={() => navigation.navigate('Details', { id: item.id })}
+      >
+        <Image source={{ uri: item.img }} style={styles.itemImage} />
+        <Text style={styles.itemText}>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   if (loading) {
     return (

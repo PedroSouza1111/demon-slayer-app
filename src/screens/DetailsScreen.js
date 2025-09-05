@@ -23,7 +23,7 @@ export default function DetailsScreen({ route }) {
     fetch(`${API_URL}${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setCharacter(data[0]);
+        setCharacter(data.content[0]);
         setLoading(false);
       })
       .catch((error) => {
@@ -50,6 +50,7 @@ export default function DetailsScreen({ route }) {
 
   const backgroundImage =
     character.race === 'Human' ? backgroundHuman : backgroundDemon;
+
 
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
